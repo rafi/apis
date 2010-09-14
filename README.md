@@ -9,4 +9,5 @@ To enable an individual API, add it to your `Kohana::modules` call:
 
     Kohana::modules(array(
         'twitter' => MODPATH.'apis/twitter',
+        'blogger' => MODPATH.'apis/blogger',
     ));
