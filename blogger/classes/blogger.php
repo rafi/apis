@@ -47,6 +47,11 @@ abstract class Blogger extends OAuth_Provider_Google {
 		return "http://www.blogger.com/feeds/{$resource_id}/{$action}";
 	}
 
+	public function url_authsub($action)
+	{
+		return "https://www.google.com/accounts/{$action}";
+	}
+
 	public function parse($response)
 	{
 		if ( ! isset($this->parser[$this->format]))
