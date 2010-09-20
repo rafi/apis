@@ -9,55 +9,14 @@ class Tumblr_Write extends Tumblr {
 	 *
 	 * @param	string	email address
 	 * @param	string	password
-	 * @param   array	parameters: http://www.tumblr.com/docs/en/api#api_write
-	 * @return  mixed
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_write
+	 * @return	mixed
 	 */
 	public function create($email, $password, array $params)
 	{
 		if ( ! isset($params['type']))
 		{
 			throw new Tumblr_Exception('Required parameter not passed: type must be provided');
-		}
-
-		// Set required values
-		switch ($params['type'])
-		{
-			case 'regular':
-				if ( ! isset($params['title']) AND ! isset($params['body']))
-				{
-					throw new Tumblr_Exception('Required parameter not passed: title or body must be provided');
-            	}
-				break;
-			case 'photo':
-				if ( ! isset($params['source']) AND ! isset($params['data']))
-				{
-					throw new Tumblr_Exception('Required parameter not passed: source or data must be provided');
-            	}
-				break;
-			case 'quote':
-				if ( ! isset($params['quote']))
-				{
-					throw new Tumblr_Exception('Required parameter not passed: quote must be provided');
-            	}
-				break;
-			case 'link':
-				if ( ! isset($params['url']))
-				{
-					throw new Tumblr_Exception('Required parameter not passed: url must be provided');
-            	}
-				break;
-			case 'video':
-				if ( ! isset($params['embed']) AND ! isset($params['data']))
-				{
-					throw new Tumblr_Exception('Required parameter not passed: embed or data must be provided');
-            	}
-				break;
-			case 'audio':
-				if ( ! isset($params['data']) AND ! isset($params['externally-hosted-url']))
-				{
-					throw new Tumblr_Exception('Required parameter not passed: data or externally-hosted-url must be provided');
-            	}
-				break;
 		}
 
 		// Force XML format
@@ -67,8 +26,6 @@ class Tumblr_Write extends Tumblr {
 		$this->url = $this->url('write');
 
 		// Execute request
-		// @todo: catch and display errors
-		// @todo: required and optional values?
 		return $this->request($email, $password, $params);
 	}
 
@@ -78,14 +35,14 @@ class Tumblr_Write extends Tumblr {
 	 *		Tumblr::factory('write')->edit($email, $password, array(
 	 *			'post-id' => $post-id,
 	 *			'blog_name' => $blog_name,
-	 * 			'title' => $title,
-	 * 		));
+	 *			'title' => $title,
+	 *		));
 	 *
-	 * @param	string		email address
-	 * @param	string		password
-	 * @param   array		parameters: http://www.tumblr.com/docs/en/api#editing_posts
-	 * @param	boolean		safe edit means that no data will be lost if it is not set upon updating
-	 * @return  mixed
+	 * @param	string	email address
+	 * @param	string	password
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#editing_posts
+	 * @param	boolean	safe edit means that no data will be lost if it is not set upon updating
+	 * @return	mixed
 	 */
 	public function edit($email, $password, array $params, $safe_edit = TRUE)
 	{
@@ -138,10 +95,10 @@ class Tumblr_Write extends Tumblr {
 	 *
 	 *		Tumblr::factory('write')->delete($email, $password, $post_id);
 	 *
-	 * @param	string		email address
-	 * @param	string		password
-	 * @param   string		post ID
-	 * @return  mixed
+	 * @param	string	email address
+	 * @param	string	password
+	 * @param	string	post ID
+	 * @return	mixed
 	 */
 	public function delete($email, $password, $post_id)
 	{
@@ -164,12 +121,12 @@ class Tumblr_Write extends Tumblr {
 	 *		Tumblr::factory('write')->delete($email, $password, array(
 	 *			'post-id' => $post-id,
 	 *			'reblog-key' => $reblog-key,
-	 * 		));
+	 *		));
 	 *
-	 * @param	string		email address
-	 * @param	string		password
-	 * @param   array		parameters: http://www.tumblr.com/docs/en/api#reblogging_posts
-	 * @return  mixed
+	 * @param	string	email address
+	 * @param	string	password
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#reblogging_posts
+	 * @return	mixed
 	 */
 	public function reblog($email, $password, array $params)
 	{

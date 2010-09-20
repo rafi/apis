@@ -50,6 +50,7 @@ abstract class Tumblr {
 		$parser = $this->parser[$this->format];
 
 		// Parse the response
+		// @todo: some kind of better solution for ths
 		try
 		{
 			return $parser($response);

@@ -7,12 +7,12 @@ class Tumblr_Read extends Tumblr {
 	 *
 	 *		Tumblr::factory('read')->posts($email, $password, , array(
 	 *			'blog_name' => $blog_name,
-	 * 		));
+	 *		));
 	 *
 	 * @param	string	email address (optional, use for including private posts)
 	 * @param	string	password (optional, use for including private posts)
-	 * @param   array	parameters: http://www.tumblr.com/docs/en/api#api_read
-	 * @return  mixed
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_read
+	 * @return	mixed
 	 */
 	public function posts($email = NULL, $password = NULL, array $params)
 	{
@@ -38,8 +38,8 @@ class Tumblr_Read extends Tumblr {
 	 *
 	 * @param	string	email address
 	 * @param	string	password
-	 * @param   array	parameters: http://www.tumblr.com/docs/en/api#api_dashboard
-	 * @return  mixed
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_dashboard
+	 * @return	mixed
 	 */
 	public function dashboard($email, $password, array $params = array())
 	{
@@ -57,8 +57,8 @@ class Tumblr_Read extends Tumblr {
 	 *
 	 * @param	string	email address
 	 * @param	string	password
-	 * @param   array	parameters: http://www.tumblr.com/docs/en/api#api_likes
-	 * @return  mixed
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_likes
+	 * @return	mixed
 	 */
 	public function likes($email, $password, array $params = array())
 	{
@@ -77,12 +77,12 @@ class Tumblr_Read extends Tumblr {
 	 *
 	 *		Tumblr::factory('read')->pages($email, $password, array(
 	 *			'blog_name' => $blog_name,
-	 * 		));
+	 *		));
 	 *
 	 * @param	string	email address (optional, use for including private pages)
 	 * @param	string	password (optional, use for including private pages)
-	 * @param   array	parameters: http://www.tumblr.com/docs/en/api#api_pages
-	 * @return  mixed
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_pages
+	 * @return	mixed
 	 */
 	public function pages($email = NULL, $password = NULL, array $params)
 	{

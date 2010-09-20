@@ -9,7 +9,7 @@ class Tumblr_User extends Tumblr {
 	 *
 	 * @param	string	email address
 	 * @param	string	password
-	 * @return  mixed
+	 * @return	mixed
 	 */
 	public function authenticate($email, $password)
 	{
@@ -28,13 +28,13 @@ class Tumblr_User extends Tumblr {
 	 *
 	 *		Tumblr::factory('user')->like($email, $password, array(
 	 *			'post-id' => $post_id,
-	 * 			'reblog-key' => $reblog-key,
-	 * 		));
+	 *			'reblog-key' => $reblog-key,
+	 *		));
 	 *
 	 * @param	string	email address
 	 * @param	string	password
-	 * @param   array	parameters: http://www.tumblr.com/docs/en/api#api_liking
-	 * @return  mixed
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_liking
+	 * @return	mixed
 	 */
 	public function like($email, $password, array $params)
 	{
@@ -55,13 +55,13 @@ class Tumblr_User extends Tumblr {
 	 *
 	 *		Tumblr::factory('user')->unlike($email, $password, array(
 	 *			'post-id' => $post_id,
-	 * 			'reblog-key' => $reblog-key,
-	 * 		));
+	 *			'reblog-key' => $reblog-key,
+	 *		));
 	 *
 	 * @param	string	email address
 	 * @param	string	password
-	 * @param   array	parameters: http://www.tumblr.com/docs/en/api#api_liking
-	 * @return  mixed
+	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_liking
+	 * @return	mixed
 	 */
 	public function unlike($email, $password, array $params)
 	{
