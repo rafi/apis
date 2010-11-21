@@ -2,6 +2,233 @@
 
 class Twitter_Status extends Twitter {
 
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/public_timeline
+	 */
+	public function public_timeline(OAuth_Consumer $consumer, OAuth_Token $token = NULL, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/public_timeline'), array(
+				'oauth_consumer_key' => $consumer->key,
+			));
+
+		// Authorization is not required
+		$request->required('oauth_token', FALSE);
+
+		if ($token)
+		{
+			// Include the token
+			$params['oauth_token'] = $token->token;
+		}
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer, no token is required
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/home_timeline
+	 */
+	public function home_timeline(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/home_timeline'), array(
+				'oauth_consumer_key' => $consumer->key,
+				'oauth_token'        => $token->token,
+			));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/friends_timeline
+	 */
+	public function friends_timeline(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/friends_timeline'), array(
+				'oauth_consumer_key' => $consumer->key,
+				'oauth_token'        => $token->token,
+			));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/user_timeline
+	 */
+	public function user_timeline(OAuth_Consumer $consumer, OAuth_Token $token = NULL, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/user_timeline'), array(
+				'oauth_consumer_key' => $consumer->key,
+			));
+
+		// Authorization is not required
+		$request->required('oauth_token', FALSE);
+
+		if ($token)
+		{
+			// Include the token
+			$params['oauth_token'] = $token->token;
+		}
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer, token is not required
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/mentions
+	 */
+	public function mentions(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/mentions'), array(
+				'oauth_consumer_key' => $consumer->key,
+				'oauth_token'        => $token->token,
+			));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/retweeted_by_me
+	 */
+	public function retweeted_by_me(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/retweeted_by_me'), array(
+				'oauth_consumer_key' => $consumer->key,
+				'oauth_token'        => $token->token,
+			));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/retweeted_to_me
+	 */
+	public function retweeted_to_me(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/retweeted_to_me'), array(
+				'oauth_consumer_key' => $consumer->key,
+				'oauth_token'        => $token->token,
+			));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/retweets_of_me
+	 */
+	public function retweets_of_me(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/retweets_of_me'), array(
+				'oauth_consumer_key' => $consumer->key,
+				'oauth_token'        => $token->token,
+			));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using only the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/update
+	 */
 	public function update(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
 	{
 		if ( ! isset($params['status']))
@@ -23,9 +250,7 @@ class Twitter_Status extends Twitter {
 			$request->params($params);
 		}
 
-		$request->send_header = FALSE;
-
-		// Sign the request using only the consumer, no token is available yet
+		// Sign the request using only the consumer and token
 		$request->sign($this->signature, $consumer, $token);
 
 		// Create a response from the request
