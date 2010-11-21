@@ -15,7 +15,6 @@ body {
 	color: #111;
 	background: #fff;
 }
-pre { white-space: pre-wrap; padding: 1em; border: dotted 1px #ddd; }
 form dl { margin: 1em 0; }
 form dl dd { margin: 0 0 0.2em; }
 form dl dd.submit { margin-top: 1em; }
@@ -32,6 +31,7 @@ footer { color: #888; text-align: center; }
 #body #menu { display: table-cell; padding-right: 1em; border-right: solid 1px #ccc; }
 #body #content { display: table-cell; width: 90%; padding: 0 0 1em; }
 #body #content section { padding: 0 1em 1em; }
+#body #content pre { white-space: pre-wrap; padding: 1em; border: dotted 1px #ddd; background: #f3f3f3; }
 </style>
 </head>
 <body>
@@ -64,5 +64,18 @@ footer { color: #888; text-align: center; }
 	</div>
 </div>
 <footer>Created by the <?php echo HTML::anchor('http://kohanaframework.org/team', 'Kohana Team') ?>.</footer>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script charset="utf-8">
+	$('<link>').attr({
+		'rel':  'stylesheet',
+		'href': 'http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css'
+	}).appendTo('head');
+
+	$('#content pre').addClass('prettyprint');
+
+	$.getScript('http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js', function() {
+		window.prettyPrint();
+	});
+</script>
 </body>
 </html>
