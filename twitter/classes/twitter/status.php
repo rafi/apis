@@ -259,4 +259,72 @@ class Twitter_Status extends Twitter {
 		return $this->parse($response);
 	}
 
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/friends
+	 */
+	public function friends(OAuth_Consumer $consumer, OAuth_Token $token = NULL, array $params = NULL)
+	{
+		if ( ! isset($params['user_id']) AND ! isset($params['screen_name']))
+		{
+			throw new Kohana_OAuth_Exception('Required parameter not passed: user_id or screen_name must be provided');
+		}
+
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/friends'), array(
+				'oauth_consumer_key' => $consumer->key,
+			))
+			->required('oauth_token', FALSE);
+
+		if ($token)
+		{
+			// Include the access token
+			$params['oauth_token'] = $token->token;
+		}
+
+		// Load user parameters
+		$request->params($params);
+
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * @link  http://dev.twitter.com/doc/get/statuses/followers
+	 */
+	public function followers(OAuth_Consumer $consumer, OAuth_Token $token = NULL, array $params = NULL)
+	{
+		if ( ! isset($params['user_id']) AND ! isset($params['screen_name']))
+		{
+			throw new Kohana_OAuth_Exception('Required parameter not passed: user_id or screen_name must be provided');
+		}
+
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('statuses/followers'), array(
+				'oauth_consumer_key' => $consumer->key,
+			))
+			->required('oauth_token', FALSE);
+
+		if ($token)
+		{
+			// Include the access token
+			$params['oauth_token'] = $token->token;
+		}
+
+		// Load user parameters
+		$request->params($params);
+
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
 } // End Twitter_Status

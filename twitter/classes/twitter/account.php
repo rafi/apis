@@ -73,6 +73,10 @@ class Twitter_Account extends Twitter {
 			'oauth_token'        => $token->token,
 		));
 
+		// Sending an authorization header without a POST body will cause the
+		// request to fail. Instead, we will send everything as POST.
+		$request->send_header = FALSE;
+
 		if ($params)
 		{
 			// Load user parameters
