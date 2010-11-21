@@ -2,6 +2,9 @@
 
 class Twitter_User extends Twitter {
 
+	/**
+	 * @link  http://dev.twitter.com/doc/get/users/show
+	 */
 	public function show(OAuth_Consumer $consumer, OAuth_Token $token = NULL, array $params = NULL)
 	{
 		if ( ! isset($params['user_id']) AND ! isset($params['screen_name']))
@@ -24,8 +27,8 @@ class Twitter_User extends Twitter {
 		// Load user parameters
 		$request->params($params);
 
-		// Sign the request using only the consumer, no token is available yet
-		$request->sign($this->signature, $consumer);
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
 
 		// Create a response from the request
 		$response = $request->execute();
