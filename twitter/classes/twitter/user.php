@@ -99,8 +99,8 @@ class Twitter_User extends Twitter {
 	 */
 	public function suggestions(OAuth_Consumer $consumer, OAuth_Token $token = NULL, array $params = NULL)
 	{
-		// Remove the "slug" parameter, it is used in the URL
-		$slug = Arr::remove($params, 'slug');
+		// Get the "slug" parameter, it is used in the URL (optional)
+		$slug = Arr::get($params, 'slug');
 
 		// Create a new GET request with the required parameters
 		$request = OAuth_Request::factory('resource', 'GET', $this->url("users/suggestions/{$slug}"), array(
@@ -138,8 +138,8 @@ class Twitter_User extends Twitter {
 			));
 		}
 
-		// Remove the "screen_name" parameter, it is used in the URL
-		$screen_name = Arr::remove($params, 'screen_name');
+		// Get the "screen_name" parameter, it is used in the URL
+		$screen_name = Arr::get($params, 'screen_name');
 
 		// Create a new GET request with the required parameters
 		$request = OAuth_Request::factory('resource', 'GET', $this->url("users/profile_image/{$screen_name}"), array(
