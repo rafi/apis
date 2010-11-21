@@ -45,6 +45,9 @@ abstract class Twitter extends OAuth_Provider_Twitter {
 
 	public function url($action)
 	{
+		// Clean up the action
+		$action = trim($action, '/');
+
 		return "http://api.twitter.com/{$this->version}/{$action}.{$this->format}";
 	}
 
