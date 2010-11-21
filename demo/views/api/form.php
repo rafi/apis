@@ -1,6 +1,6 @@
 <?php echo Form::open() ?>
 
-<?php if ($message): ?><aside><?php echo $message ?></aside><?php endif ?>
+<?php if ( ! empty($message)): ?><aside><?php echo $message ?></aside><?php endif ?>
 
 <dl>
 <?php foreach ($inputs as $label => $input): ?>

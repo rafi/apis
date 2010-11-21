@@ -178,6 +178,9 @@ abstract class Controller_Demo extends Controller {
 			}
 		}
 
+		// Source may include HTML, escape it
+		$source = HTML::chars($source);
+
 		// Set the source location
 		$location = Kohana::debug_path($file);
 		$location = "{$location} [ {$start} - {$end} ]";
