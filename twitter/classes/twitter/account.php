@@ -154,4 +154,52 @@ class Twitter_Account extends Twitter {
 		return $this->parse($response);
 	}
 
+	/**
+	 * @link  http://dev.twitter.com/doc/get/account/update_profile_image
+	 */
+	public function update_profile_image(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'POST', $this->url('account/update_profile_image'), array(
+				'oauth_consumer_key' => $consumer->key,
+				'oauth_token'        => $token->token,
+			))
+			->required('image', TRUE);
+
+		// CURL options
+		$options = array();
+
+		if (isset($params['image']))
+		{
+			// Upload the image
+			$request->upload('image', $params['image']);
+
+			// Do not pass "image" as a normal parameter
+			unset($params['image']);
+
+			// This will probably take longer time than normal because of uploading
+			$options[CURLOPT_TIMEOUT] = 60;
+
+			$options[CURLOPT_HTTPHEADER] = array(
+				// Overload the "Expect" header to bypass CURL oddity, see
+				// http://code.google.com/p/twitter-api/issues/detail?id=697
+				'Expect:',
+			);
+		}
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute($options);
+
+		return $this->parse($response);
+	}
+
 } // End Twitter_Account
