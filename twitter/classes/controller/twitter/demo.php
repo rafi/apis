@@ -128,6 +128,30 @@ class Controller_Twitter_Demo extends Controller_Demo {
 		}
 	}
 
+	public function demo_account_update_profile_image()
+	{
+		if (Request::$method === 'POST')
+		{
+			$params = array('image' => Upload::save($_FILES['image'], NULL, '/tmp'));
+
+			$api = Twitter::factory('account');
+
+			$response = $api->update_profile_image($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('uploads', TRUE) // ALlow uploads
+				->set('message', 'Update your profile image.')
+				->set('inputs', array(
+					'Image File' => Form::file('image'),
+				))
+				;
+		}
+	}
+
 	public function demo_status_friends_timeline()
 	{
 		$api = Twitter::factory('status');
