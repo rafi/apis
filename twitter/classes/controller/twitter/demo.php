@@ -222,6 +222,95 @@ class Controller_Twitter_Demo extends Controller_Demo {
 		}
 	}
 
+	public function demo_status_show()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the screen name and account id from POST
+			$params = Arr::extract($_POST, array('id'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('status');
+
+			$response = $api->show($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter a tweet (status) id.')
+				->set('inputs', array(
+					'ID' => Form::input('id'),
+				))
+				;
+		}
+	}
+
+	public function demo_status_update()
+	{
+		if (Request::$method === 'POST')
+		{
+			$params = Arr::extract($_POST, array('status'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('status');
+
+			$response = $api->update($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter your tweet text.')
+				->set('inputs', array(
+					'Status' => Form::textarea('status'),
+				))
+				;
+		}
+	}
+
+	public function demo_status_destroy()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the screen name and account id from POST
+			$params = Arr::extract($_POST, array('id'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('status');
+
+			$response = $api->destroy($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter a tweet (status) id. You must own the tweet you want to destroy.')
+				->set('inputs', array(
+					'ID' => Form::input('id'),
+				))
+				;
+		}
+	}
+
 	public function demo_user_show()
 	{
 		if (Request::$method === 'POST')
