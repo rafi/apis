@@ -157,4 +157,197 @@ class Controller_Twitter_Demo extends Controller_Demo {
 		}
 	}
 
+	public function demo_user_lookup()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the screen name and account id from POST
+			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('user');
+
+			$response = $api->lookup($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter a comma-separated list of account IDs or screen names.')
+				->set('inputs', array(
+					'Screen Names' => Form::textarea('screen_name'),
+					'Account IDs'  => Form::textarea('acount_id'),
+				))
+				;
+		}
+	}
+
+	public function demo_user_search()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the query from POST
+			$params = Arr::extract($_POST, array('q'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('user');
+
+			$response = $api->search($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter search terms.')
+				->set('inputs', array(
+					'Search' => Form::input('q'),
+				))
+				;
+		}
+	}
+
+	public function demo_user_suggestions()
+	{
+		if (Request::$method === 'POST')
+		{
+			$params = Arr::extract($_POST, array('slug'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('user');
+
+			// Get a list of user suggestions in this category
+			$response = $api->suggestions($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$api = Twitter::factory('user');
+
+			// Without the "slug" parameter, a list of categories is returned
+			$categories = $api->suggestions($this->consumer, $this->token);
+
+			$options = array();
+			foreach ($categories as $category)
+			{
+				$options[$category->slug] = $category->name;
+			}
+
+			$this->content = View::factory('api/form')
+				->set('message', 'Choose a category.')
+				->set('inputs', array(
+					'Category' => Form::select('slug', $options),
+				))
+				;
+		}
+	}
+
+	public function demo_user_profile_image()
+	{
+		if (Request::$method === 'POST')
+		{
+			$params = Arr::extract($_POST, array('screen_name'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('user');
+
+			$response = $api->profile_image($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter a screen name.<br/><small class="warn">This method will always result in an exception because Twitter returns a 302 redirect rather than a response!</small>')
+				->set('inputs', array(
+					'Screen Name' => Form::input('screen_name'),
+				))
+				;
+		}
+	}
+
+	public function demo_user_friends()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the screen name and account id from POST
+			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('user');
+
+			$response = $api->friends($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter an account ID or screen name.')
+				->set('inputs', array(
+					'Screen Name' => Form::input('screen_name'),
+					'Account ID'  => Form::input('acount_id'),
+				))
+				;
+		}
+	}
+
+	public function demo_user_followers()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the screen name and account id from POST
+			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			$api = Twitter::factory('user');
+
+			$response = $api->followers($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Enter an account ID or screen name.')
+				->set('inputs', array(
+					'Screen Name' => Form::input('screen_name'),
+					'Account ID'  => Form::input('acount_id'),
+				))
+				;
+		}
+	}
+
 } // End Twitter_Demo
