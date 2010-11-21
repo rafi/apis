@@ -32,6 +32,102 @@ class Controller_Twitter_Demo extends Controller_Demo {
 		$this->content = Kohana::debug($response);
 	}
 
+	public function demo_account_update_profile_colors()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the screen name and account id from POST
+			$params = Arr::extract($_POST, array(
+				'profile_background_color',
+				'profile_text_color',
+				'profile_link_color',
+				'profile_sidebar_fill_color',
+				'profile_sidebar_border_color',
+			));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			foreach ($params as $key => $value)
+			{
+				if ( ! ltrim($value, '#'))
+				{
+					// Remove empty value
+					unset($params[$key]);
+				}
+			}
+
+			$api = Twitter::factory('account');
+
+			$response = $api->update_profile_colors($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Choose your profile colors using 3 or 6 digit hex codes. <small class="warn">Do not include the # sign!</small>')
+				->set('inputs', array(
+					'Background'     => Form::input('profile_background_color'),
+					'Text'           => Form::input('profile_text_color'),
+					'Links'          => Form::input('profile_link_color'),
+					'Sidebar Fill'   => Form::input('profile_sidebar_fill_color'),
+					'Sidebar Border' => Form::input('profile_sidebar_border_color'),
+				))
+				;
+		}
+	}
+
+	public function demo_account_update_profile()
+	{
+		if (Request::$method === 'POST')
+		{
+			// Get the screen name and account id from POST
+			$params = Arr::extract($_POST, array(
+				'name',
+				'url',
+				'location',
+				'description',
+			));
+
+			if ( ! $params)
+			{
+				// No parameters included
+				$this->request->redirect($this->request->uri);
+			}
+
+			foreach ($params as $key => $value)
+			{
+				if ( ! trim($value))
+				{
+					// Remove empty value
+					unset($params[$key]);
+				}
+			}
+
+			$api = Twitter::factory('account');
+
+			$response = $api->update_profile($this->consumer, $this->token, $params);
+
+			$this->content = Kohana::debug($response);
+		}
+		else
+		{
+			$this->content = View::factory('api/form')
+				->set('message', 'Update your profile.')
+				->set('inputs', array(
+					'Your Name'   => Form::input('name'),
+					'Website URL' => Form::input('url'),
+					'Location'    => Form::input('location'),
+					'Description' => Form::input('description'),
+				))
+				;
+		}
+	}
+
 	public function demo_status_friends_timeline()
 	{
 		$api = Twitter::factory('status');
@@ -280,7 +376,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 		else
 		{
 			$this->content = View::factory('api/form')
-				->set('message', 'Enter a screen name.<br/><small class="warn">This method will always result in an exception because Twitter returns a 302 redirect rather than a response!</small>')
+				->set('message', 'Enter a screen name. <small class="warn">This method will always result in an exception because Twitter returns a 302 redirect rather than a response!</small>')
 				->set('inputs', array(
 					'Screen Name' => Form::input('screen_name'),
 				))

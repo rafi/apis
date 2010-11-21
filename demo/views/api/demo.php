@@ -27,7 +27,7 @@ section { padding-bottom: 1em; margin-bottom: 1em; border-bottom: solid 1px #ccc
 section:last-child { padding-bottom: 0; border-bottom: 0; }
 footer { color: #888; text-align: center; }
 .large { font-size: 1.2em; }
-.warn { color: #911; }
+.warn { display: block; color: #911; background: #efefef; padding: 0.6em; margin: 1em 0; }
 #body { display: table; margin: 1em 0; width: 100%; border: solid 1px #ccc; border-width: 1px 0; }
 #body #menu { display: table-cell; padding-right: 1em; border-right: solid 1px #ccc; }
 #body #content { display: table-cell; width: 90%; padding: 0 0 1em; }
