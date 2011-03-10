@@ -39,7 +39,7 @@ abstract class Controller_Demo extends Controller {
 
 	public function before()
 	{
-		$this->request->response = View::factory('api/demo')
+		$this->view = View::factory('api/demo')
 			->bind('code', $this->code)
 			->bind('content', $this->content)
 			->bind('api', $this->api)
@@ -109,7 +109,7 @@ abstract class Controller_Demo extends Controller {
 			ob_start();
 
 			// Render the exception
-			Kohana::exception_handler($e);
+			Kohana_Exception::handler($e);
 
 			// Capture the exception HTML
 			$this->content = ob_get_clean();
@@ -121,7 +121,9 @@ abstract class Controller_Demo extends Controller {
 
 	public function after()
 	{
-		$this->request->response->title = $this->api.($this->demo ? ": {$this->demo}" : '');
+		$this->view->title = $this->api.($this->demo ? ": {$this->demo}" : '');
+
+		$this->response->body($this->view->render());
 
 		return parent::after();
 	}
@@ -182,7 +184,7 @@ abstract class Controller_Demo extends Controller {
 		$source = HTML::chars($source);
 
 		// Set the source location
-		$location = Kohana::debug_path($file);
+		$location = Debug::path($file);
 		$location = "{$location} [ {$start} - {$end} ]";
 
 		return "<aside>{$location}</aside>\n<pre><code>{$source}</code></pre>";
