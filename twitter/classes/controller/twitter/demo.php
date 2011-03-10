@@ -8,7 +8,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->verify_credentials($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_account_rate_limit_status()
@@ -17,7 +17,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->rate_limit_status($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_account_end_session()
@@ -29,12 +29,12 @@ class Controller_Twitter_Demo extends Controller_Demo {
 		// The access token is not valid after ending the session
 		$this->session->delete($this->key('access'));
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_account_update_profile_colors()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array(
@@ -48,7 +48,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			foreach ($params as $key => $value)
@@ -64,7 +64,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 			$response = $api->update_profile_colors($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -83,7 +83,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_account_update_profile()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array(
@@ -96,7 +96,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			foreach ($params as $key => $value)
@@ -112,7 +112,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 			$response = $api->update_profile($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -130,7 +130,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_account_update_profile_image()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			$params = array('image' => Upload::save($_FILES['image'], NULL, '/tmp'));
 
@@ -138,7 +138,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 			$response = $api->update_profile_image($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -158,7 +158,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->friends_timeline($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_status_home_timeline()
@@ -167,7 +167,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->home_timeline($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_status_mentions()
@@ -176,7 +176,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->mentions($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_status_retweeted_by_me()
@@ -185,7 +185,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->retweeted_by_me($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_status_retweeted_to_me()
@@ -194,7 +194,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->retweeted_to_me($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_status_retweets_of_me()
@@ -203,7 +203,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->retweets_of_me($this->consumer, $this->token);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_status_public_timeline()
@@ -212,12 +212,12 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 		$response = $api->public_timeline($this->consumer);
 
-		$this->content = Kohana::debug($response);
+		$this->content = Debug::vars($response);
 	}
 
 	public function demo_status_user_timeline()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
@@ -225,14 +225,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('status');
 
 			$response = $api->user_timeline($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -248,7 +248,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_status_show()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array('id'));
@@ -256,14 +256,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('status');
 
 			$response = $api->show($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -278,21 +278,21 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_status_update()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			$params = Arr::extract($_POST, array('status'));
 
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('status');
 
 			$response = $api->update($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -307,7 +307,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_status_destroy()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array('id'));
@@ -315,14 +315,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('status');
 
 			$response = $api->destroy($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -337,7 +337,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_user_show()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
@@ -345,14 +345,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('user');
 
 			$response = $api->show($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -368,7 +368,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_user_lookup()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
@@ -376,14 +376,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('user');
 
 			$response = $api->lookup($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -399,7 +399,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_user_search()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the query from POST
 			$params = Arr::extract($_POST, array('q'));
@@ -407,14 +407,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('user');
 
 			$response = $api->search($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -429,14 +429,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_user_suggestions()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			$params = Arr::extract($_POST, array('slug'));
 
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('user');
@@ -444,7 +444,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			// Get a list of user suggestions in this category
 			$response = $api->suggestions($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -470,21 +470,21 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_user_profile_image()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			$params = Arr::extract($_POST, array('screen_name'));
 
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('user');
 
 			$response = $api->profile_image($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -499,7 +499,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_user_friends()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
@@ -507,14 +507,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('user');
 
 			$response = $api->friends($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{
@@ -530,7 +530,7 @@ class Controller_Twitter_Demo extends Controller_Demo {
 
 	public function demo_user_followers()
 	{
-		if (Request::$method === 'POST')
+		if ($this->request->method() === 'POST')
 		{
 			// Get the screen name and account id from POST
 			$params = Arr::extract($_POST, array('screen_name', 'account_id'));
@@ -538,14 +538,14 @@ class Controller_Twitter_Demo extends Controller_Demo {
 			if ( ! $params)
 			{
 				// No parameters included
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			$api = Twitter::factory('user');
 
 			$response = $api->followers($this->consumer, $this->token, $params);
 
-			$this->content = Kohana::debug($response);
+			$this->content = Debug::vars($response);
 		}
 		else
 		{

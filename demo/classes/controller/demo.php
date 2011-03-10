@@ -201,7 +201,7 @@ abstract class Controller_Demo extends Controller {
 				$this->session->delete($this->key('request'));
 
 				// Restart the login process
-				$this->request->redirect($this->request->uri);
+				$this->request->redirect($this->request->uri());
 			}
 
 			// Store the verifier in the token
@@ -217,13 +217,13 @@ abstract class Controller_Demo extends Controller {
 			$this->session->delete($this->key('request'));
 
 			// Refresh the page to prevent errors
-			$this->request->redirect($this->request->uri);
+			$this->request->redirect($this->request->uri());
 		}
 
 		if ($this->token)
 		{
 			// Login succesful
-			$this->content = Kohana::debug('Access token granted:', $this->token);
+			$this->content = Debug::vars('Access token granted:', $this->token);
 		}
 		else
 		{
@@ -258,7 +258,9 @@ abstract class Controller_Demo extends Controller {
 			$this->request->redirect($this->request->uri(array('action' => FALSE, 'id' => FALSE)));
 		}
 
-		$this->content = HTML::anchor("{$this->request->uri}?confirm=yes", "Logout of {$this->api}");
+		$logout = $this->request->uri().URL::query(array('confirm' => 'yes'));
+
+		$this->content = HTML::anchor($logout, "Logout of {$this->api}");
 	}
 
 } // End Demo

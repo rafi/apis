@@ -1,4 +1,4 @@
-<?php echo Form::open(NULL, empty($uploads) ? NULL : array('enctype' => 'multipart/form-data')) ?>
+<?php echo Form::open(Request::current(), empty($uploads) ? NULL : array('enctype' => 'multipart/form-data')) ?>
 
 <?php if ( ! empty($message)): ?><aside><?php echo $message ?></aside><?php endif ?>
 
