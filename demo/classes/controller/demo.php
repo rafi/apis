@@ -43,6 +43,7 @@ abstract class Controller_Demo extends Controller {
 			->bind('code', $this->code)
 			->bind('content', $this->content)
 			->bind('api', $this->api)
+			->bind('apis', $apis)
 			->bind('demo', $this->demo)
 			->bind('demos', $demos)
 			;
@@ -63,6 +64,28 @@ abstract class Controller_Demo extends Controller {
 		{
 			// Make the access token available
 			$this->token = $token;
+		}
+
+		if (Request::$method === 'POST' AND $switch = Arr::get($_POST, 'api'))
+		{
+			// Switch to a different API
+			$this->request->redirect(Route::url('apidemo', array('controller' => $switch)));
+		}
+
+		// Build the APIs list
+		$files = Kohana::list_files('classes/controller/demo');
+		$apis  = array();
+
+		foreach ($files as $file => $path)
+		{
+			if (preg_match('#classes/controller/demo/(.+)'.preg_quote(EXT).'#', $file, $matches))
+			{
+				// Extract the name of the API
+				$name = $matches[1];
+
+				// Add the API to the list
+				$apis[$name] = ucwords(Inflector::humanize($name));
+			}
 		}
 
 		// Start reflection to get the demo list
