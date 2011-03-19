@@ -40,15 +40,22 @@ footer { color: #888; text-align: center; }
 </header>
 <div id="body">
 	<nav id="menu">
+		<?php if ( ! $apis): ?>
+		<p>No APIs available, try enabling a provider module.</p>
+		<?php else: ?>
+		<form method="post">
+		<p>API: <?php echo Form::select('api', $apis, $api) ?> <input type="submit" value="Switch"></p>
+		</form>
 		<h4>Demos</h4>
 		<?php if ( ! $demos): ?>
-		<p>No demos available. Try enabling a provider API.</p>
+		<p>No demos available for this API.</p>
 		<?php else: ?>
 		<ul>
 		<?php foreach ($demos as $demo => $link): ?>
 		<li><?php echo HTML::anchor($link, $demo) ?></li>
 		<?php endforeach ?>
 		</ul>
+		<?php endif ?>
 		<?php endif ?>
 	</nav>
 	<div id="content">

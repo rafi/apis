@@ -1,6 +1,6 @@
 <h2>Welcome to the API Demos</h2>
 
-<p>These demos provide usage examples for APIs that use OAuth. To get started, choose a demo from the list. The source code of each demo will be included at the bottom of the screen. When exceptions occur, they will be displayed.</p>
+<p>These demos provide usage examples for APIs that use OAuth. To get started, choose a demo from the list. The source code of each demo will be included at the bottom of the screen. When exceptions occur, they will be displayed. <strong style="color:#911">It is very likely that some API methods will trigger exceptions if you are not logged in!</strong></p>
 
 <h3>Demo Variables</h3>
 <dl>
