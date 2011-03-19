@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Twitter_Demo extends Controller_Demo {
+class Controller_Demo_Twitter extends Controller_Demo {
 
 	public function demo_account_verify_credentials()
 	{

@@ -51,7 +51,7 @@ abstract class Controller_Demo extends Controller {
 		$this->session = Session::instance('cookie');
 
 		// Get the name of the demo from the class name
-		$provider = strtolower($this->api = preg_replace('/^Controller_(.+)_Demo$/i', '$1', get_class($this)));
+		$provider = strtolower($this->api = preg_replace('/^Controller_Demo_(.+)$/i', '$1', get_class($this)));
 
 		// Load the provider
 		$this->provider = OAuth_Provider::factory($provider);
@@ -78,45 +78,49 @@ abstract class Controller_Demo extends Controller {
 				$demo = $matches[1];
 
 				// Add the demo link
-				$demos[$demo] = $this->request->uri(array('action' => 'api', 'id' => strtolower($demo)));
+				$demos[$demo] = $this->request->uri(array('action' => 'api', 'demo' => strtolower($demo)));
 			}
 		}
 
 		return parent::before();
 	}
 
-	public function action_index()
+	public function action_api()
 	{
-		$this->content = View::factory('api/index');
-	}
+		$method = $this->request->param('demo');
 
-	public function action_api($method)
-	{
-		// Set the demo name
-		$this->demo = $method;
-
-		// Start reflection
-		$method = new ReflectionMethod($this, "demo_{$method}");
-
-		try
+		if ($method)
 		{
-			// Invoke the method to create content
-			$method->invoke($this);
-		}
-		catch (Exception $e)
-		{
-			// Start buffering
-			ob_start();
+			// Set the demo name
+			$this->demo = $method;
+
+			// Start reflection
+			$method = new ReflectionMethod($this, "demo_{$method}");
+
+			try
+			{
+				// Invoke the method to create content
+				$method->invoke($this);
+			}
+			catch (Exception $e)
+			{
+				// Start buffering
+				ob_start();
 
 			// Render the exception
 			Kohana_Exception::handler($e);
 
-			// Capture the exception HTML
-			$this->content = ob_get_clean();
-		}
+				// Capture the exception HTML
+				$this->content = ob_get_clean();
+			}
 
-		// Get the source code for this method
-		$this->code = $this->source($method->getFilename(), $method->getStartLine(), $method->getEndLine());
+			// Get the source code for this method
+			$this->code = $this->source($method->getFilename(), $method->getStartLine(), $method->getEndLine());
+		}
+		else
+		{
+			$this->content = View::factory('api/index');
+		}
 	}
 
 	public function after()
