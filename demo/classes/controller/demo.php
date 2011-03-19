@@ -66,7 +66,7 @@ abstract class Controller_Demo extends Controller {
 			$this->token = $token;
 		}
 
-		if (Request::$method === 'POST' AND $switch = Arr::get($_POST, 'api'))
+		if ($this->request->method() === Request::POST AND $switch = Arr::get($_POST, 'api'))
 		{
 			// Switch to a different API
 			$this->request->redirect(Route::url('apidemo', array('controller' => $switch)));
