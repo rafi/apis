@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Controller_Demo extends Controller {
+abstract class Controller_OAuth_Demo extends Controller {
 
 	/**
 	 * @var  string  API
