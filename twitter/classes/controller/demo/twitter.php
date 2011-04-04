@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Demo_Twitter extends Controller_Demo {
+class Controller_Demo_Twitter extends Controller_OAuth_Demo {
 
 	public function demo_account_verify_credentials()
 	{
@@ -68,7 +68,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Choose your profile colors using 3 or 6 digit hex codes. <small class="warn">Do not include the # sign!</small>')
 				->set('inputs', array(
 					'Background'     => Form::input('profile_background_color'),
@@ -116,7 +116,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Update your profile.')
 				->set('inputs', array(
 					'Your Name'   => Form::input('name'),
@@ -142,7 +142,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('uploads', TRUE) // ALlow uploads
 				->set('message', 'Update your profile image.')
 				->set('inputs', array(
@@ -236,7 +236,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter an account ID or screen name.')
 				->set('inputs', array(
 					'Screen Name' => Form::input('screen_name'),
@@ -267,7 +267,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter a tweet (status) id.')
 				->set('inputs', array(
 					'ID' => Form::input('id'),
@@ -296,7 +296,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter your tweet text.')
 				->set('inputs', array(
 					'Status' => Form::textarea('status'),
@@ -326,7 +326,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter a tweet (status) id. You must own the tweet you want to destroy.')
 				->set('inputs', array(
 					'ID' => Form::input('id'),
@@ -356,7 +356,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter an account ID or screen name.')
 				->set('inputs', array(
 					'Screen Name' => Form::input('screen_name'),
@@ -387,7 +387,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter a comma-separated list of account IDs or screen names.')
 				->set('inputs', array(
 					'Screen Names' => Form::textarea('screen_name'),
@@ -418,7 +418,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter search terms.')
 				->set('inputs', array(
 					'Search' => Form::input('q'),
@@ -459,7 +459,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 				$options[$category->slug] = $category->name;
 			}
 
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Choose a category.')
 				->set('inputs', array(
 					'Category' => Form::select('slug', $options),
@@ -488,7 +488,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter a screen name. <small class="warn">This method will always result in an exception because Twitter returns a 302 redirect rather than a response!</small>')
 				->set('inputs', array(
 					'Screen Name' => Form::input('screen_name'),
@@ -518,7 +518,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter an account ID or screen name.')
 				->set('inputs', array(
 					'Screen Name' => Form::input('screen_name'),
@@ -549,7 +549,7 @@ class Controller_Demo_Twitter extends Controller_Demo {
 		}
 		else
 		{
-			$this->content = View::factory('api/form')
+			$this->content = View::factory('demo/form')
 				->set('message', 'Enter an account ID or screen name.')
 				->set('inputs', array(
 					'Screen Name' => Form::input('screen_name'),
