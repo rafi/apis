@@ -1,15 +1,31 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Tumblr {
+abstract class Tumblr extends OAuth_Provider_Tumblr {
 
-	protected $format = 'xml';
-	protected $url;
+	/**
+	 * @var  string  the base URL for the Tumblr OAuth API
+	 */
+	protected $base_url = 'api.tumblr.com/v2';
 
+	/**
+	 * @var  string  format of returned response
+	 */
+	protected $format = 'json';
+
+	/**
+	 * @var  array  parsers for different formats
+	 */
 	protected $parser = array(
-		'xml'  => 'simplexml_load_string',
 		'json' => 'json_decode',
 	);
 
+	/**
+	 * Returns a new Tumblr object.
+	 *
+	 * @param   string  $name
+	 * @param   array   $options
+	 * @return  Tumblr
+	 */
 	public static function factory($name, array $options = NULL)
 	{
 		$class = 'Tumblr_'.$name;
@@ -17,8 +33,16 @@ abstract class Tumblr {
 		return new $class($options);
 	}
 
+	/**
+	 * Sets the format.
+	 *
+	 * @param   array  $options
+	 * @return  void
+	 */
 	public function __construct(array $options = NULL)
 	{
+		parent::__construct($options);
+
 		if (isset($options['format']))
 		{
 			// Set the response format
@@ -26,6 +50,13 @@ abstract class Tumblr {
 		}
 	}
 
+	/**
+	 * Sets a parser for a specific format.
+	 *
+	 * @param   string  $format
+	 * @param   string  $value
+	 * @return  Tumblr
+	 */
 	public function parser($format, $value)
 	{
 		$this->parser[$format] = $value;
@@ -33,11 +64,32 @@ abstract class Tumblr {
 		return $this;
 	}
 
-	public function url($action, $source = 'www')
+	/**
+	 * Creates the URL for executing actions.
+	 *
+	 * @param   string  $action
+	 * @return  string
+	 */
+	public function url($action, $modifier = NULL)
 	{
-		return "http://{$source}.tumblr.com/api/{$action}/{$this->format}";
+		// Set URL
+		$url = "http://{$this->base_url}/{$action}";
+
+		if ($modifier !== NULL)
+		{
+			// Add modifier to URL
+			$url .= '/'.$modifier;
+		}
+
+		return $url;
 	}
 
+	/**
+	 * Parses the response based on set format.
+	 *
+	 * @param   mixed  $response
+	 * @return  mixed
+	 */
 	public function parse($response)
 	{
 		if ( ! isset($this->parser[$this->format]))
@@ -50,49 +102,7 @@ abstract class Tumblr {
 		$parser = $this->parser[$this->format];
 
 		// Parse the response
-		// @todo: some kind of better solution for ths
-		try
-		{
-			return $parser($response);
-		}
-		catch (Exception $e)
-		{
-		    return $response;
-		}
-	}
-
-	public function request($email = NULL, $password = NULL, array $params = array())
-	{
-		// If email and password are set include them in params
-		if ($email AND $password)
-		{
-			Arr::unshift($params, 'email', $email);
-			Arr::unshift($params, 'password', $password);
-		}
-		
-		// Create query string from params
-		$data = http_build_query($params);
-
-		// If email and password set do an authenticated POST request
-		if ($email AND $password)
-		{
-			$options = array(
-				CURLOPT_POST => TRUE,
-				CURLOPT_POSTFIELDS => $data,
-			);
-		}
-		else
-		{
-			// Set CURL options to NULL
-			$options = NULL;
-
-			// Add query string to base URL
-			$this->url = "{$this->url}?{$data}";
-		}
-
-		$response = Remote::get($this->url, $options);
-
-		return $this->parse($response);
+		return $parser($response);
 	}
 
 } // End Tumblr
