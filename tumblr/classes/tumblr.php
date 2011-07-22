@@ -68,6 +68,7 @@ abstract class Tumblr extends OAuth_Provider_Tumblr {
 	 * Creates the URL for executing actions.
 	 *
 	 * @param   string  $action
+	 * @param   string  $modifier
 	 * @return  string
 	 */
 	public function url($action, $modifier = NULL)
