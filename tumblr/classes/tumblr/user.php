@@ -3,78 +3,199 @@
 class Tumblr_User extends Tumblr {
 
 	/**
-	 * Get user info.
+	 * Sets the base base URL.
 	 *
-	 *		Tumblr::factory('user')->authenticate($email, $password);
-	 *
-	 * @param	string	email address
-	 * @param	string	password
-	 * @return	mixed
+	 * @param   array  $options
+	 * @return  void
 	 */
-	public function authenticate($email, $password)
+	public function __construct(array $options = NULL)
 	{
-		// Force XML format
-		$this->format = 'xml';
+		// Set base URL
+		$this->base_url .= '/user';
 
-		// Set URL
-		$this->url = $this->url('authenticate');
-
-		// Execute request
-		return $this->request($email, $password);
+		parent::__construct($options);
 	}
 
 	/**
-	 * Like a post.
+	 * Retrieve a user's dashboard.
 	 *
-	 *		Tumblr::factory('user')->like($email, $password, array(
-	 *			'post-id' => $post_id,
-	 *			'reblog-key' => $reblog-key,
-	 *		));
+	 *		Tumblr::factory('blog')->dashboard($consumer, $token);
 	 *
-	 * @param	string	email address
-	 * @param	string	password
-	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_liking
+	 * @param	OAuth_Consumer  $consumer
+	 * @param	OAuth_Token     $token
+	 * @param	array           $params
 	 * @return	mixed
+	 * @link    http://www.tumblr.com/docs/en/api/v2#user-methods
 	 */
-	public function like($email, $password, array $params)
+	public function dashboard(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
 	{
-		if ( ! isset($params['post-id']) OR  ! isset($params['reblog-key']))
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('/user/dashboard'), array(
+			'oauth_consumer_key' => $consumer->key,
+			'oauth_token'        => $token->token,
+		));
+
+		if ($params)
 		{
-			throw new Tumblr_Exception('Required parameter not passed: post-id and reblog-key must be provided');
+			// Load user parameters
+			$request->params($params);
 		}
 
-		// Set URL
-		$this->url = $this->url('like');
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
 
-		// Execute request
-		return $this->request($email, $password, $params);
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
 	}
 
 	/**
-	 * Unlike a post.
+	 * Retrieve a user's likes.
 	 *
-	 *		Tumblr::factory('user')->unlike($email, $password, array(
-	 *			'post-id' => $post_id,
-	 *			'reblog-key' => $reblog-key,
-	 *		));
+	 *		Tumblr::factory('blog')->likes($consumer, $token);
 	 *
-	 * @param	string	email address
-	 * @param	string	password
-	 * @param	array	parameters: http://www.tumblr.com/docs/en/api#api_liking
+	 * @param	OAuth_Consumer  $consumer
+	 * @param	OAuth_Token     $token
+	 * @param	array           $params
 	 * @return	mixed
+	 * @link    http://www.tumblr.com/docs/en/api/v2#user-methods
 	 */
-	public function unlike($email, $password, array $params)
+	public function likes(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
 	{
-		if ( ! isset($params['post-id']) OR  ! isset($params['reblog-key']))
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('/user/likes'), array(
+			'oauth_consumer_key' => $consumer->key,
+			'oauth_token'        => $token->token,
+		));
+
+		if ($params)
 		{
-			throw new Tumblr_Exception('Required parameter not passed: post-id and reblog-key must be provided');
+			// Load user parameters
+			$request->params($params);
 		}
 
-		// Set URL
-		$this->url = $this->url('unlike');
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
 
-		// Execute request
-		return $this->request($email, $password, $params);
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * Retrieve the blogs a user is following.
+	 *
+	 *		Tumblr::factory('blog')->following($consumer, $token);
+	 *
+	 * @param	OAuth_Consumer  $consumer
+	 * @param	OAuth_Token     $token
+	 * @param	array           $params
+	 * @return	mixed
+	 * @link    http://www.tumblr.com/docs/en/api/v2#user-methods
+	 */
+	public function following(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		// Create a new GET request with the required parameters
+		$request = OAuth_Request::factory('resource', 'GET', $this->url('/user/following'), array(
+			'oauth_consumer_key' => $consumer->key,
+			'oauth_token'        => $token->token,
+		));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * Follow a blog.
+	 *
+	 *		Tumblr::factory('blog')->follow($consumer, $token);
+	 *
+	 * @param	OAuth_Consumer  $consumer
+	 * @param	OAuth_Token     $token
+	 * @param	array           $params
+	 * @return	mixed
+	 * @link    http://www.tumblr.com/docs/en/api/v2#user-methods
+	 */
+	public function follow(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		if ( ! isset($params['url']))
+		{
+			// Throw exception
+			throw new Kohana_OAuth_Exception('Required parameter not passed: url must be provided');
+		}
+
+		// Create a new POST request with the required parameters
+		$request = OAuth_Request::factory('resource', 'POST', $this->url('/user/follow'), array(
+			'oauth_consumer_key' => $consumer->key,
+			'oauth_token'        => $token->token,
+		));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
+	}
+
+	/**
+	 * Unfollow a blog.
+	 *
+	 *		Tumblr::factory('blog')->unfollow($consumer, $token);
+	 *
+	 * @param	OAuth_Consumer  $consumer
+	 * @param	OAuth_Token     $token
+	 * @param	array           $params
+	 * @return	mixed
+	 * @link    http://www.tumblr.com/docs/en/api/v2#user-methods
+	 */
+	public function unfollow(OAuth_Consumer $consumer, OAuth_Token $token, array $params = NULL)
+	{
+		if ( ! isset($params['url']))
+		{
+			// Throw exception
+			throw new Kohana_OAuth_Exception('Required parameter not passed: url must be provided');
+		}
+
+		// Create a new POST request with the required parameters
+		$request = OAuth_Request::factory('resource', 'POST', $this->url('/user/unfollow'), array(
+			'oauth_consumer_key' => $consumer->key,
+			'oauth_token'        => $token->token,
+		));
+
+		if ($params)
+		{
+			// Load user parameters
+			$request->params($params);
+		}
+
+		// Sign the request using the consumer and token
+		$request->sign($this->signature, $consumer, $token);
+
+		// Create a response from the request
+		$response = $request->execute();
+
+		return $this->parse($response);
 	}
 
 } // End Tumblr_User
